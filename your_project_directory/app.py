@@ -1,6 +1,7 @@
 import os
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 # Set page configuration - must be the first command
 st.set_page_config(
@@ -54,21 +55,35 @@ if uploaded_file is not None:
     filtered_df = df[df["Region"] == region]
     st.dataframe(filtered_df)
 
-    # Plotting section
-    st.subheader(f"Transaction Volume and Profit for {region}")
+    # Plotting section with animated and interactive visualizations
+    st.subheader(f"Visualizations for {region}")
     
-    col1, col2 = st.columns(2)
+    # Area Chart for Profit over Time
+    st.markdown("### Profit Over Time")
+    area_chart = px.area(filtered_df, x="Date", y="Profit", title='Profit Over Time', 
+                          labels={'Date': 'Date', 'Profit': 'Profit'},
+                          template='plotly_dark')
+    st.plotly_chart(area_chart, use_container_width=True)
 
-    with col1:
-        st.bar_chart(filtered_df[["Date", "Transaction_Volume"]].set_index("Date"))
+    # Bar Chart for Transaction Volume
+    st.markdown("### Transaction Volume Over Time")
+    bar_chart = px.bar(filtered_df, x="Date", y="Transaction_Volume", title='Transaction Volume Over Time',
+                        labels={'Date': 'Date', 'Transaction_Volume': 'Transaction Volume'},
+                        template='plotly_dark')
+    st.plotly_chart(bar_chart, use_container_width=True)
 
-    with col2:
-        st.line_chart(filtered_df[["Date", "Profit"]].set_index("Date"))
+    # Pie Chart for Distribution of Profit by Region
+    st.markdown("### Profit Distribution by Region")
+    profit_distribution = df.groupby("Region")["Profit"].sum().reset_index()
+    pie_chart = px.pie(profit_distribution, names='Region', values='Profit', 
+                        title='Profit Distribution by Region',
+                        template='plotly_dark')
+    st.plotly_chart(pie_chart, use_container_width=True)
 
     # Additional insights
     st.subheader("Insights")
-    st.write(f"Total Profit for {region}: {filtered_df['Profit'].sum()}")
-    st.write(f"Average Transaction Volume for {region}: {filtered_df['Transaction_Volume'].mean()}")
+    st.write(f"**Total Profit for {region}:** ${filtered_df['Profit'].sum():,.2f}")
+    st.write(f"**Average Transaction Volume for {region}:** {filtered_df['Transaction_Volume'].mean():,.2f}")
 
 else:
     st.sidebar.info("Please upload a CSV file to get started.")

@@ -80,6 +80,22 @@ if uploaded_file is not None:
                         template='plotly_dark')
     st.plotly_chart(pie_chart, use_container_width=True)
 
+    # Scatter plot for Transaction Volume vs Profit
+    st.markdown("### Scatter Plot: Transaction Volume vs Profit")
+    scatter_plot = px.scatter(filtered_df, x="Transaction_Volume", y="Profit", 
+                               color="Region", title="Transaction Volume vs Profit",
+                               trendline="ols",
+                               labels={'Transaction_Volume': 'Transaction Volume', 'Profit': 'Profit'},
+                               template='plotly_dark')
+    st.plotly_chart(scatter_plot, use_container_width=True)
+
+    # Heatmap for correlation between numerical columns
+    st.markdown("### Heatmap of Correlation")
+    correlation = df.corr()
+    heatmap = px.imshow(correlation, text_auto=True, title='Heatmap of Correlation',
+                         template='plotly_dark', color_continuous_scale='RdBu')
+    st.plotly_chart(heatmap, use_container_width=True)
+
     # Additional insights
     st.subheader("Insights")
     st.write(f"**Total Profit for {region}:** ${filtered_df['Profit'].sum():,.2f}")
@@ -90,7 +106,6 @@ else:
     st.write("Awaiting file upload...")
 
 # Footer
-st.markdown("""
-    <hr>
+st.markdown("""<hr>
     <small>Developed by Suhas and KGI in collaboration. Powered by Streamlit.</small>
     """, unsafe_allow_html=True)

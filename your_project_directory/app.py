@@ -93,36 +93,36 @@ if uploaded_file is not None:
                                template='plotly_dark')
     st.plotly_chart(scatter_plot, use_container_width=True)
 
-    # Machine Learning Model for Future Predictions
-    st.subheader("Machine Learning: Predicting Future Profits")
+   # Machine Learning Model for Future Predictions
+    #st.subheader("Machine Learning: Predicting Future Profits")
 
     # Check if required columns exist for ML
-    if "Profit" in df.columns and "Transaction_Volume" in df.columns:
+    #  if "Profit" in df.columns and "Transaction_Volume" in df.columns:
         # Prepare the data for training the ML model
-        X = df[["Transaction_Volume"]]
-        y = df["Profit"]
+       # X = df[["Transaction_Volume"]]
+        #y = df["Profit"]
         
         # Split the data into training and testing sets
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+       # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
         
         # Train a linear regression model
-        model = LinearRegression()
-        model.fit(X_train, y_train)
+        # model = LinearRegression()
+        # model.fit(X_train, y_train)
         
         # Predict future profits
-        y_pred = model.predict(X_test)
+        # y_pred = model.predict(X_test)
         
         # Display metrics
-        st.write(f"**R-squared score:** {r2_score(y_test, y_pred):.2f}")
-        st.write(f"**Mean Squared Error:** {mean_squared_error(y_test, y_pred):.2f}")
+        # st.write(f"**R-squared score:** {r2_score(y_test, y_pred):.2f}")
+        # st.write(f"**Mean Squared Error:** {mean_squared_error(y_test, y_pred):.2f}")
         
         # Plot predictions vs actual values
-        prediction_plot = px.scatter(x=y_test, y=y_pred, labels={"x": "Actual Profit", "y": "Predicted Profit"},
-                                     title="Actual vs Predicted Profit", template='plotly_dark')
-        st.plotly_chart(prediction_plot, use_container_width=True)
+        # prediction_plot = px.scatter(x=y_test, y=y_pred, labels={"x": "Actual Profit", "y": "Predicted Profit"},
+                           #          title="Actual vs Predicted Profit", template='plotly_dark')
+        #st.plotly_chart(prediction_plot, use_container_width=True)
 
-    else:
-        st.warning("Required columns (Profit, Transaction Volume) not found in the dataset for predictions.")
+    # else:
+        # st.warning("Required columns (Profit, Transaction Volume) not found in the dataset for predictions.")
 
     # Correlation Heatmap
     st.subheader("Correlation Heatmap")

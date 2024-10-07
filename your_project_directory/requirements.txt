@@ -8,3 +8,7 @@ pandas
 numpy
 openpyxl
 plotly
+streamlit
+pandas
+plotly
+numpy

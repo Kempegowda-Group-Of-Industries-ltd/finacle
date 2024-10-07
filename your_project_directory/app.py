@@ -6,7 +6,7 @@ import plotly.figure_factory as ff
 
 # Set page configuration - must be the first command
 st.set_page_config(
-    page_title="Infosys Finacle - Financial Data Analysis",
+    page_title=" Financial Data Analysis",
     layout="wide",
     initial_sidebar_state="expanded"
 )

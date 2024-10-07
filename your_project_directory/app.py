@@ -2,6 +2,7 @@ import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.figure_factory as ff
 
 # Set page configuration - must be the first command
 st.set_page_config(
@@ -89,12 +90,25 @@ if uploaded_file is not None:
                                template='plotly_dark')
     st.plotly_chart(scatter_plot, use_container_width=True)
 
-    # Heatmap for correlation between numerical columns
-    st.markdown("### Heatmap of Correlation")
-    correlation = df.corr()
-    heatmap = px.imshow(correlation, text_auto=True, title='Heatmap of Correlation',
-                         template='plotly_dark', color_continuous_scale='RdBu')
-    st.plotly_chart(heatmap, use_container_width=True)
+    # Filter out non-numeric columns
+    numeric_df = df.select_dtypes(include=['float64', 'int64'])
+
+    # Calculate correlation matrix
+    correlation = numeric_df.corr()
+
+    # Display correlation matrix
+    st.subheader("Correlation Heatmap")
+    st.write("Heatmap of the correlation between numeric variables:")
+
+    # Plot heatmap using Plotly
+    fig = ff.create_annotated_heatmap(
+        z=correlation.values,
+        x=list(correlation.columns),
+        y=list(correlation.index),
+        annotation_text=correlation.round(2).values,
+        colorscale='Viridis',
+    )
+    st.plotly_chart(fig, use_container_width=True)
 
     # Additional insights
     st.subheader("Insights")

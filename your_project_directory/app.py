@@ -12,7 +12,7 @@ st.set_page_config(
 )
 
 # Title and description
-st.title("📊 Infosys Finacle - Financial Data Analysis")
+st.title("📊 Financial Data Analysis")
 st.write("Welcome to the financial data analysis app. Upload your CSV file to explore your financial data through visualizations and statistics.")
 
 # Sidebar header
